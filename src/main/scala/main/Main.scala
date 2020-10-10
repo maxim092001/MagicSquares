@@ -1,4 +1,6 @@
-import board._
+package main
+
+import main.board.{Board, Cell, Rectangle, Square}
 
 import scala.io.StdIn.readLine
 
@@ -15,8 +17,11 @@ object Main extends App {
     (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if isUnique(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
         List(_.lowerRightValue, _.lowerLeftValue, _.upperRightValue, _.upperLeftValue))) yield
-      Board().withCenter(Square().withUpper(Rectangle().withFirst(cells(i), i).withSecond(cells(j), j))
-        .withLower(Rectangle().withFirst(cells(k), k).withSecond(cells(f), f)))).toList.distinct
+      Board().withCenter(
+        Square()
+          .withUpper(Rectangle().withFirst(cells(i), i).withSecond(cells(j), j))
+          .withLower(Rectangle().withFirst(cells(k), k).withSecond(cells(f), f))
+      )).toList.distinct
 
   val fullyFilledBoards = findBoundaries(cells, boards)
 
@@ -26,10 +31,10 @@ object Main extends App {
   else fullyFilledBoards.foreach(board => println(board))
 
   /**
-   * Checks that the board satisfies the yellow cell condition.
+   * Checks that the main.board satisfies the yellow cell condition.
    *
-   * @param board check board.
-   * @return `true` if board satisfies, `false` otherwise.
+   * @param board check main.board.
+   * @return `true` if main.board satisfies, `false` otherwise.
    */
   private def checkBoardForYellow(board: Board): Boolean = {
     isYellow(List(board.upperRectangle.first, board.upperRectangle.second),
@@ -51,9 +56,9 @@ object Main extends App {
   }
 
   /**
-   * Adds all rectangles to each board.
+   * Adds all rectangles to each main.board.
    *
-   * @param cells array of cells.
+   * @param cells  array of cells.
    * @param boards list of boards.
    * @return List of new distinct boards with all rectangles added.
    */
@@ -76,11 +81,11 @@ object Main extends App {
   /**
    * Finds all possible matching rectangles and adds them to all boards.
    *
-   * @param cells array of cells.
-   * @param boards list of boards.
-   * @param boardMappers list of mappers for boards. Each mapper matches boundary cells.
+   * @param cells            array of cells.
+   * @param boards           list of boards.
+   * @param boardMappers     list of mappers for boards. Each mapper matches boundary cells.
    * @param boardCellMappers list of mapper for cells. Each mapper matches required values from the cells.
-   * @param sideMapper mapper to match which Rectangle we want to add.
+   * @param sideMapper       mapper to match which Rectangle we want to add.
    * @return List of new distinct boards with added rectangles.
    */
   private def boundary(cells: Array[Cell], boards: List[Board], boardMappers: List[Board => Cell],
@@ -89,13 +94,13 @@ object Main extends App {
       addRectangles(cells, board, boardMappers.map(f => f(board)), boardCellMappers, sideMapper)).flatten.distinct
 
   /**
-   * Finds all possible matching rectangles and adds them to the board.
+   * Finds all possible matching rectangles and adds them to the main.board.
    *
-   * @param cells array of cells.
-   * @param board current board.
-   * @param boardCells board cells to which a rectangle is added.
+   * @param cells            array of cells.
+   * @param board            current main.board.
+   * @param boardCells       main.board cells to which a rectangle is added.
    * @param boardCellMappers list of mappers for cells. Each mapper matches required values from the cells.
-   * @param sideMapper mapper to match which Rectangle we want to add.
+   * @param sideMapper       mapper to match which Rectangle we want to add.
    * @return List of new boards with added rectangles.
    */
   private def addRectangles(cells: Array[Cell], board: Board, boardCells: List[Cell],
@@ -109,7 +114,7 @@ object Main extends App {
   /**
    * Verifies that the sum of the values matches the green condition.
    *
-   * @param cells list of cells.
+   * @param cells       list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum equal ten, `false` otherwise
    */
@@ -118,7 +123,7 @@ object Main extends App {
   /**
    * Verifies that the sum of the values matches the yellow condition.
    *
-   * @param cells list of cells.
+   * @param cells       list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum less or equal ten, `false` otherwise
    */
@@ -127,9 +132,9 @@ object Main extends App {
   /**
    * Verifies if sum of values in cells satisfies the predicate.
    *
-   * @param cells list of cells.
+   * @param cells       list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
-   * @param cmp function to compare sum.
+   * @param cmp         function to compare sum.
    * @return `true` if sum satisfies the predicate, `false` otherwise.
    */
   private def compareSum(cells: List[Cell], cellMappers: List[Cell => Int], cmp: Int => Boolean) =
