@@ -12,8 +12,23 @@ package board
 class Rectangle private (val first: Cell, val second: Cell, val indexes: List[Int]) {
   override def toString: String = s"$first$second"
 
-  def withFirst(newFirst: Cell, index: Int): Rectangle = Rectangle(newFirst, second, indexes ::: List(index))
-  def withSecond(newSecond: Cell, index: Int): Rectangle = Rectangle(first, newSecond, indexes ::: List(index))
+  /**
+   * Creates new Rectangle from current with new first cell.
+   *
+   * @param cell new first cell.
+   * @param index new cell index.
+   * @return a new Rectangle instance.
+   */
+  def withFirst(cell: Cell, index: Int): Rectangle = Rectangle(cell, second, indexes ::: List(index))
+
+  /**
+   * Creates new Rectangle from current with new second cell.
+   *
+   * @param cell new second cell.
+   * @param index new cell index.
+   * @return a new Rectangle instance.
+   */
+  def withSecond(cell: Cell, index: Int): Rectangle = Rectangle(first, cell, indexes ::: List(index))
 
   private def canEqual(other: Any): Boolean = other.isInstanceOf[Rectangle]
 
