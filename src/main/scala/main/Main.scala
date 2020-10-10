@@ -116,8 +116,8 @@ object Main extends App {
    * Adds all rectangles to each main.board.
    *
    * @param cells  array of cells.
-   * @param boards list of boards.
-   * @return List of new distinct boards with all rectangles added.
+   * @param boards `List` of boards.
+   * @return `List` of new distinct boards with all rectangles added.
    */
   private def findBoundaries(cells: Array[Cell], boards: List[Board]): List[Board] = {
     var res: List[Board] = boards
@@ -143,9 +143,9 @@ object Main extends App {
    * Finds all possible matching rectangles and adds them to all boards.
    *
    * @param cells            array of cells.
-   * @param boards           list of boards.
-   * @param boardMappers     list of mappers for boards. Each mapper matches boundary cells.
-   * @param boardCellMappers list of mapper for cells. Each mapper matches required values from the cells.
+   * @param boards           `List` of boards.
+   * @param boardMappers     `List` of mappers for boards. Each mapper matches boundary cells.
+   * @param boardCellMappers `List` of mapper for cells. Each mapper matches required values from the cells.
    * @param sideMapper       mapper to match which Rectangle we want to add.
    * @return List of new distinct boards with added rectangles.
    */
@@ -160,9 +160,9 @@ object Main extends App {
    * @param cells            array of cells.
    * @param board            current main.board.
    * @param boardCells       main.board cells to which a rectangle is added.
-   * @param boardCellMappers list of mappers for cells. Each mapper matches required values from the cells.
+   * @param boardCellMappers `List` of mappers for cells. Each mapper matches required values from the cells.
    * @param sideMapper       mapper to match which Rectangle we want to add.
-   * @return List of new boards with added rectangles.
+   * @return `List` of new boards with added rectangles.
    */
   private def addRectangles(cells: Array[Cell], board: Board, boardCells: List[Cell],
                             boardCellMappers: List[Cell => Int], sideMapper: Board => Rectangle => Board)
@@ -175,8 +175,8 @@ object Main extends App {
   /**
    * Verifies that the sum of the values matches the green condition.
    *
-   * @param cells       list of cells.
-   * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
+   * @param cells       `List` of cells.
+   * @param cellMappers `List` of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum equal ten, `false` otherwise
    */
   private def isGreen(cells: List[Cell], cellMappers: List[Cell => Int]) = compareSum(cells, cellMappers, _ == 10)
@@ -184,8 +184,8 @@ object Main extends App {
   /**
    * Verifies that the sum of the values matches the yellow condition.
    *
-   * @param cells       list of cells.
-   * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
+   * @param cells       `List` of cells.
+   * @param cellMappers `List` of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum less or equal ten, `false` otherwise
    */
   private def isYellow(cells: List[Cell], cellMappers: List[Cell => Int]) = compareSum(cells, cellMappers, _ <= 10)
@@ -193,8 +193,8 @@ object Main extends App {
   /**
    * Verifies if sum of values in cells satisfies the predicate.
    *
-   * @param cells       list of cells.
-   * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
+   * @param cells       `List` of cells.
+   * @param cellMappers `List` of mappers for cells. Each mapper matches required values from the cells.
    * @param cmp         function to compare sum.
    * @return `true` if sum satisfies the predicate, `false` otherwise.
    */
