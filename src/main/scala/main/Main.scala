@@ -26,7 +26,7 @@ object Main extends App {
     ).map { case ul :: ur :: ll :: lr :: Nil => Cell(ul, ur, ll, lr) }.toArray
 
   val boards: List[Board] =
-    (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if isUnique(i, j, k, f) &&
+    (for (i <- cells.indices; j <- cells.indices; k <- cells.indices; f <- cells.indices if isUnique(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
         List(_.lowerRightValue, _.lowerLeftValue, _.upperRightValue, _.upperLeftValue))) yield
       Board().withCentre(
@@ -167,7 +167,7 @@ object Main extends App {
   private def addRectangles(cells: Array[Cell], board: Board, boardCells: List[Cell],
                             boardCellMappers: List[Cell => Int], sideMapper: Board => Rectangle => Board)
   : List[Board] =
-    (for (i <- 0 to 11; j <- 0 to 11 if isUnique(i, j) &&
+    (for (i <- cells.indices; j <- cells.indices if isUnique(i, j) &&
       !(board.indexes.contains(i) || board.indexes.contains(j)) &&
       isGreen(boardCells ::: List(cells(i), cells(j)), boardCellMappers))
       yield sideMapper(board)(Rectangle(cells(i), cells(j), List(i, j)))).toList
