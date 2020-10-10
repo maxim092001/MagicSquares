@@ -29,8 +29,7 @@ class Board private (val centreSquare: Square, val upperRectangle: Rectangle,
   override def toString: String = s"$upperRectangle${leftRectangle.first}${centreSquare.upperRectangle}${rightRectangle.first}" +
     s"${leftRectangle.second}${centreSquare.lowerRectangle}${rightRectangle.second}$lowerRectangle"
 
-
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Board]
+  private def canEqual(other: Any): Boolean = other.isInstanceOf[Board]
 
   override def equals(other: Any): Boolean = other match {
     case that: Board =>

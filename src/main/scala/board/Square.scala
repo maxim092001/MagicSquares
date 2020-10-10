@@ -11,8 +11,7 @@ class Square private (val upperRectangle: Rectangle, val lowerRectangle: Rectang
 
   def withLower(rectangle: Rectangle) = new Square(upperRectangle, rectangle, indexes ::: rectangle.indexes)
 
-
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Square]
+  private def canEqual(other: Any): Boolean = other.isInstanceOf[Square]
 
   override def equals(other: Any): Boolean = other match {
     case that: Square =>

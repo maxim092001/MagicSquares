@@ -8,7 +8,7 @@ class Cell private (val upperLeftValue: Int, val upperRightValue: Int,
 
   override def toString = s"$upperLeftValue $upperRightValue $lowerLeftValue $lowerRightValue\n"
 
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Cell]
+  private def canEqual(other: Any): Boolean = other.isInstanceOf[Cell]
 
   override def equals(other: Any): Boolean = other match {
     case that: Cell =>

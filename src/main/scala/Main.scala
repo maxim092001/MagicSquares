@@ -27,6 +27,7 @@ object Main extends App {
 
   /**
    * Checks that the board satisfies the yellow cell condition.
+   *
    * @param board check board.
    * @return `true` if board satisfies, `false` otherwise.
    */
@@ -51,6 +52,7 @@ object Main extends App {
 
   /**
    * Adds all rectangles to each board.
+   *
    * @param cells array of cells.
    * @param boards list of boards.
    * @return List of new distinct boards with all rectangles added.
@@ -73,6 +75,7 @@ object Main extends App {
 
   /**
    * Finds all possible matching rectangles and adds them to all boards.
+   *
    * @param cells array of cells.
    * @param boards list of boards.
    * @param boardMappers list of mappers for boards. Each mapper matches boundary cells.
@@ -87,6 +90,7 @@ object Main extends App {
 
   /**
    * Finds all possible matching rectangles and adds them to the board.
+   *
    * @param cells array of cells.
    * @param board current board.
    * @param boardCells board cells to which a rectangle is added.
@@ -104,6 +108,7 @@ object Main extends App {
 
   /**
    * Verifies that the sum of the values matches the green condition.
+   *
    * @param cells list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum equal ten, `false` otherwise
@@ -112,6 +117,7 @@ object Main extends App {
 
   /**
    * Verifies that the sum of the values matches the yellow condition.
+   *
    * @param cells list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
    * @return `true` if sum less or equal ten, `false` otherwise
@@ -120,6 +126,7 @@ object Main extends App {
 
   /**
    * Verifies if sum of values in cells satisfies the predicate.
+   *
    * @param cells list of cells.
    * @param cellMappers list of mappers for cells. Each mapper matches required values from the cells.
    * @param cmp function to compare sum.
@@ -130,6 +137,7 @@ object Main extends App {
 
   /**
    * Verifies if a set of numbers consists only of unique elements.
+   *
    * @param arr set of numbers
    * @return `true` if unique, `false` otherwise.
    */
