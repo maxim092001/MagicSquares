@@ -14,7 +14,6 @@ class Board private (val centreSquare: Square, val upperRectangle: Rectangle,
   def withLeft(left: Rectangle): Board =
     Board(centreSquare, upperRectangle, rightRectangle, lowerRectangle, left, indexes ::: left.indexes)
 
-
   def withRight(right: Rectangle): Board =
     Board(centreSquare, upperRectangle, right, lowerRectangle, leftRectangle, indexes ::: right.indexes)
 
