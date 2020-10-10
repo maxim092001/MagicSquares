@@ -59,7 +59,7 @@ class Board private(val centreSquare: Square, val upperRectangle: Rectangle,
    * @param centre new centre square.
    * @return a new [[Board]] instance.
    */
-  def withCenter(centre: Square): Board =
+  def withCentre(centre: Square): Board =
     Board(centre, upperRectangle, rightRectangle, lowerRectangle, leftRectangle, indexes ::: centre.indexes)
 
   override def toString: String = s"$upperRectangle${leftRectangle.first}${centreSquare.upperRectangle}${rightRectangle.first}" +

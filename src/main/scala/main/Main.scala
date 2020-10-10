@@ -17,7 +17,7 @@ object Main extends App {
     (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if isUnique(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
         List(_.lowerRightValue, _.lowerLeftValue, _.upperRightValue, _.upperLeftValue))) yield
-      Board().withCenter(
+      Board().withCentre(
         Square()
           .withUpper(Rectangle().withFirst(cells(i), i).withSecond(cells(j), j))
           .withLower(Rectangle().withFirst(cells(k), k).withSecond(cells(f), f))
