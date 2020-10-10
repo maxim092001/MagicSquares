@@ -55,4 +55,7 @@
 
 ![Yellow](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/yellow.png)
 
-Если после такой фильтрации ```List``` не пустой, то выведем ответ, иначе соотвествующее сообщение: "There is no satisfying permutation of the given cells."
+Результат
+---
+
+Если после такой фильтрации наш ```List``` не пустой, то выведем ответ, иначе соотвествующее сообщение: "*There is no satisfying permutation of the given cells.*"
