@@ -1,22 +1,30 @@
 package main
 
+import java.io.{BufferedReader, FileNotFoundException, FileReader}
+
 import main.board.{Board, Cell, Rectangle, Square}
 
-import scala.io.StdIn.readLine
+import scala.util.{Failure, Success, Using}
+
 
 /**
  * @author Grankin Maxim (maximgran@gmail.com) at 14:14 07.10.2020
  */
 object Main extends App {
 
-  val sourceFile = io.Source.fromFile("input.txt")
-  val lines = sourceFile.getLines()
+  val lines: List[String] =
+    Using(new BufferedReader(new FileReader("input.txt"))) { reader =>
+      Iterator.continually(reader.readLine()).takeWhile(_ != null).toList
+    } match {
+      case Failure(exception) => throw new FileNotFoundException(s"File cannot be read. Reason:" +
+        s" ${exception.getMessage}")
+      case Success(value) => value
+    }
 
   val cells: Array[Cell] = (for (line <- lines) yield
     line.split("\\s+").map(_.toInt).toList
-    ).toList.map { case ul :: ur :: ll :: lr :: Nil => Cell(ul, ur, ll, lr) }.toArray
+    ).map { case ul :: ur :: ll :: lr :: Nil => Cell(ul, ur, ll, lr) }.toArray
 
-  sourceFile.close()
   val boards: List[Board] =
     (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if isUnique(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
@@ -27,12 +35,10 @@ object Main extends App {
           .withLower(Rectangle().withFirst(cells(k), k).withSecond(cells(f), f))
       )).toList.distinct
 
-  val fullyFilledBoards = findBoundaries(cells, boards)
-
-  fullyFilledBoards.filter(board => checkBoardForYellow(board))
-
-  if (fullyFilledBoards.isEmpty) println("There is no satisfying permutation of the given cells")
-  else fullyFilledBoards.foreach(board => println(board))
+  findBoundaries(cells, boards).filter(board => checkBoardForYellow(board)) match {
+    case Nil => println("There is no satisfying permutation of the given cells")
+    case notEmpty => notEmpty.foreach(board => println(board))
+  }
 
   /**
    * Checks that the main.board satisfies the yellow cell condition.
@@ -41,22 +47,69 @@ object Main extends App {
    * @return `true` if main.board satisfies, `false` otherwise.
    */
   private def checkBoardForYellow(board: Board): Boolean = {
-    isYellow(List(board.upperRectangle.first, board.upperRectangle.second),
-      List(_.upperRightValue, _.upperLeftValue)) &&
-      isYellow(List(board.upperRectangle.second, board.centreSquare.upperRectangle.second, board.rightRectangle.first),
-        List(_.lowerRightValue, _.upperRightValue, _.upperLeftValue)) &&
-      isYellow(List(board.leftRectangle.first, board.leftRectangle.second),
-        List(_.lowerRightValue, _.upperRightValue)) &&
-      isYellow(List(board.leftRectangle.second, board.centreSquare.lowerRectangle.second, board.lowerRectangle.second),
-        List(_.lowerLeftValue, _.lowerRightValue, _.upperRightValue)) &&
-      isYellow(List(board.lowerRectangle.first, board.lowerRectangle.second),
-        List(_.lowerRightValue, _.lowerLeftValue)) &&
-      isYellow(List(board.lowerRectangle.first, board.centreSquare.lowerRectangle.first, board.leftRectangle.second),
-        List(_.upperLeftValue, _.lowerLeftValue, _.lowerRightValue)) &&
-      isYellow(List(board.leftRectangle.first, board.leftRectangle.second),
-        List(_.lowerLeftValue, _.upperLeftValue)) &&
-      isYellow(List(board.leftRectangle.first, board.centreSquare.upperRectangle.first, board.upperRectangle.first),
-        List(_.upperRightValue, _.upperLeftValue, _.lowerLeftValue))
+    isYellow(
+      List(
+        board.upperRectangle.first,
+        board.upperRectangle.second),
+      List(
+        _.upperRightValue,
+        _.upperLeftValue)) &&
+      isYellow(
+        List(
+          board.upperRectangle.second,
+          board.centreSquare.upperRectangle.second,
+          board.rightRectangle.first),
+        List(
+          _.lowerRightValue,
+          _.upperRightValue,
+          _.upperLeftValue)) &&
+      isYellow(
+        List(
+          board.leftRectangle.first,
+          board.leftRectangle.second),
+        List(
+          _.lowerRightValue,
+          _.upperRightValue)) &&
+      isYellow(
+        List(
+          board.leftRectangle.second,
+          board.centreSquare.lowerRectangle.second,
+          board.lowerRectangle.second),
+        List(
+          _.lowerLeftValue,
+          _.lowerRightValue,
+          _.upperRightValue)) &&
+      isYellow(
+        List(board.lowerRectangle.first,
+          board.lowerRectangle.second),
+        List(
+          _.lowerRightValue,
+          _.lowerLeftValue)) &&
+      isYellow(
+        List(
+          board.lowerRectangle.first,
+          board.centreSquare.lowerRectangle.first,
+          board.leftRectangle.second),
+        List(
+          _.upperLeftValue,
+          _.lowerLeftValue,
+          _.lowerRightValue)) &&
+      isYellow(
+        List(
+          board.leftRectangle.first,
+          board.leftRectangle.second),
+        List(
+          _.lowerLeftValue,
+          _.upperLeftValue)) &&
+      isYellow(
+        List(
+          board.leftRectangle.first,
+          board.centreSquare.upperRectangle.first,
+          board.upperRectangle.first),
+        List(
+          _.upperRightValue,
+          _.upperLeftValue,
+          _.lowerLeftValue))
   }
 
   /**
@@ -69,16 +122,20 @@ object Main extends App {
   private def findBoundaries(cells: Array[Cell], boards: List[Board]): List[Board] = {
     var res: List[Board] = boards
 
-    res = boundary(cells, res, List(_.centreSquare.upperRectangle.first, _.centreSquare.upperRectangle.second),
+    res = boundary(cells, res,
+      List(_.centreSquare.upperRectangle.first, _.centreSquare.upperRectangle.second),
       List(_.upperRightValue, _.upperLeftValue, _.lowerRightValue, _.lowerLeftValue), _.withUpper)
 
-    res = boundary(cells, res, List(_.centreSquare.upperRectangle.second, _.centreSquare.lowerRectangle.second),
+    res = boundary(cells, res,
+      List(_.centreSquare.upperRectangle.second, _.centreSquare.lowerRectangle.second),
       List(_.lowerRightValue, _.upperRightValue, _.lowerLeftValue, _.upperLeftValue), _.withRight)
 
-    res = boundary(cells, res, List(_.centreSquare.lowerRectangle.first, _.centreSquare.lowerRectangle.second),
+    res = boundary(cells, res,
+      List(_.centreSquare.lowerRectangle.first, _.centreSquare.lowerRectangle.second),
       List(_.lowerRightValue, _.lowerLeftValue, _.upperRightValue, _.upperLeftValue), _.withLower)
 
-    boundary(cells, res, List(_.centreSquare.upperRectangle.first, _.centreSquare.lowerRectangle.first),
+    boundary(cells, res,
+      List(_.centreSquare.upperRectangle.first, _.centreSquare.lowerRectangle.first),
       List(_.lowerLeftValue, _.upperLeftValue, _.lowerRightValue, _.upperRightValue), _.withLeft)
   }
 
