@@ -3,8 +3,8 @@ package board
 /**
  * @author Grankin Maxim (maximgran@gmail.com) at 13:57 08.10.2020  
  */
-class Square(val upperRectangle: Rectangle = new Rectangle(), val lowerRectangle: Rectangle = new Rectangle(),
-             val indexes: List[Int] = List()) {
+class Square private (val upperRectangle: Rectangle, val lowerRectangle: Rectangle,
+             val indexes: List[Int]) {
   override def toString: String = s"$upperRectangle$lowerRectangle"
 
   def withUpper(rectangle: Rectangle) = new Square(rectangle, lowerRectangle, indexes ::: rectangle.indexes)
@@ -26,4 +26,9 @@ class Square(val upperRectangle: Rectangle = new Rectangle(), val lowerRectangle
     val state = Seq(upperRectangle, lowerRectangle)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
+}
+
+object Square {
+  def apply(upperRectangle: Rectangle = Rectangle(), lowerRectangle: Rectangle = Rectangle(),
+            indexes: List[Int] = List()): Square = new Square(upperRectangle, lowerRectangle, indexes)
 }

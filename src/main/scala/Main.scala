@@ -9,14 +9,14 @@ object Main extends App {
 
   val cells: Array[Cell] = (for (i <- 0 to 11) yield
     readLine().split("\\s+").map(_.toInt).toList
-    ).toList.map { case ul :: ur :: ll :: lr :: Nil => new Cell(ul, ur, ll, lr) }.toArray
+    ).toList.map { case ul :: ur :: ll :: lr :: Nil => Cell(ul, ur, ll, lr) }.toArray
 
   val boards: List[Board] =
     (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if uniqueIndexes(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
         List(_.lowerRightValue, _.lowerLeftValue, _.upperRightValue, _.upperLeftValue))) yield
-      new Board().withCenter(new Square(indexes = List(i, j, k, f)).withUpper(new Rectangle().withFirst(cells(i)).withSecond(cells(j)))
-        .withLower(new Rectangle().withFirst(cells(k)).withSecond(cells(f))))).toList.distinct
+      Board().withCenter(Square().withUpper(Rectangle().withFirst(cells(i), i).withSecond(cells(j), j))
+        .withLower(Rectangle().withFirst(cells(k), k).withSecond(cells(f), f)))).toList.distinct
 
   val fullyFilledBoards = findBoundaries(cells, boards)
 
@@ -69,7 +69,7 @@ object Main extends App {
     (for (i <- 0 to 11; j <- 0 to 11 if uniqueIndexes(i, j) &&
       !(board.indexes.contains(i) || board.indexes.contains(j)) &&
       isGreen(boardCells ::: List(cells(i), cells(j)), boardCellMappers))
-      yield sideMapper(board)(new Rectangle(cells(i), cells(j), List(i, j)))).toList
+      yield sideMapper(board)(Rectangle(cells(i), cells(j), List(i, j)))).toList
   }
 
   private def isGreen(cells: List[Cell], cellMappers: List[Cell => Int]) = checkColor(cells, cellMappers, _ == 10)
