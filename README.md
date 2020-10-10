@@ -20,3 +20,39 @@
 ![Order](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/order.png)
 
 Требуется вывести все возможные уникальные ответы разделенные пустой строкой.
+
+Решение
+---
+
+Рассмотрим все возможные чевтерки квадратов, у которых середина будет иметь сумму ровно 10. 
+
+![Green square](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/green_square.png)
+
+Занесем все **уникальные** четверки в ```List```.
+
+Далее будем пытаться *собрать* доску из оставшихся квадратов для каждой четверки.
+
+Алгоритм:
+* Добавим прямоугольник из двух квадратов сверху, проверив сумму на равенство 10. Все такие **уникальные** фигуры опять занесем в ```List```
+
+![Upper](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/upper.png)
+
+* Добавим прямоугольник из двух квадратов справа. Аналогично.
+
+![Right](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/right.png)
+
+* Добавим прямоугольник из двух квадратов снизу. Аналогично.
+
+![Lower](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/lower.png)
+
+* Добавим прямоугольник из двух квадратов слева. Аналогично.
+
+![Left](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/left.png)
+
+Таким образом в конце мы получим ```List``` из досок удовлетворяющих требованию *зеленый сумм*. 
+
+Для каждой доски проверим требование *желтых сумм*.
+
+![Yellow](https://github.com/maxim092001/MagicSquares/blob/master/src/main/resources/images/yellow.png)
+
+Если после такой фильтрации ```List``` не пустой, то выведем ответ, иначе соотвествующее сообщение: "There is no satisfying permutation of the given cells."
