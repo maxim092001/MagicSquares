@@ -9,10 +9,14 @@ import scala.io.StdIn.readLine
  */
 object Main extends App {
 
-  val cells: Array[Cell] = (for (i <- 0 to 11) yield
-    readLine().split("\\s+").map(_.toInt).toList
+  val sourceFile = io.Source.fromFile("input.txt")
+  val lines = sourceFile.getLines()
+
+  val cells: Array[Cell] = (for (line <- lines) yield
+    line.split("\\s+").map(_.toInt).toList
     ).toList.map { case ul :: ur :: ll :: lr :: Nil => Cell(ul, ur, ll, lr) }.toArray
 
+  sourceFile.close()
   val boards: List[Board] =
     (for (i <- 0 to 11; j <- 0 to 11; k <- 0 to 11; f <- 0 to 11 if isUnique(i, j, k, f) &&
       isGreen(List(cells(i), cells(j), cells(k), cells(f)),
